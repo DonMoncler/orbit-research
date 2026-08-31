@@ -35,6 +35,10 @@ h1{font-size:35px;letter-spacing:-1.8px;margin:8px 0}p{color:var(--m);line-heigh
 .progress i{display:block;height:100%;background:var(--p)}
 .badge{display:inline-block;font-size:11px;font-weight:750;padding:3px 9px;border-radius:20px;background:#eaf0ff;color:#214db2;margin-right:6px}
 .note{font-size:11px;color:var(--m);margin-top:6px}
+.live{display:inline-flex;align-items:center;gap:6px;font-size:11px;color:var(--m);font-weight:700;margin-top:8px}
+.dot{width:7px;height:7px;border-radius:50%;background:#c7cdd6}
+.dot.on{background:var(--g);box-shadow:0 0 0 3px #15805e22}
+.dot.err{background:var(--r)}
 @media(max-width:750px){.grid{grid-template-columns:1fr 1fr}.top{display:block}nav{margin-top:15px;overflow:auto}.metrics{grid-template-columns:1fr 1fr}}
 @media(max-width:400px){.grid{grid-template-columns:1fr}.app{padding:18px}}
 </style></head><body>
@@ -47,6 +51,7 @@ h1{font-size:35px;letter-spacing:-1.8px;margin:8px 0}p{color:var(--m);line-heigh
 <div class="ey">Your five-company learning set</div>
 <h1>Build better stock habits.</h1>
 <p>Choose a company. Understand the business. Write what you believe. Revisit when new information arrives.</p>
+<div class="live" id="liveStatus"><span class="dot" id="liveDot"></span><span id="liveText">Connecting to live prices&hellip;</span></div>
 <div class="grid" id="cards"></div>
 <div class="card"><h2>Your next step</h2><p id="next">Choose a company to start your first thesis.</p></div>
 </section>
@@ -82,6 +87,33 @@ function data(){try{return JSON.parse(localStorage.orbitResearch||'{}')}catch{re
 function save(x){localStorage.orbitResearch=JSON.stringify(x)}
 function state(s){return data()[s]?.view?'THESIS WRITTEN':'START RESEARCH'}
 function fmt(n){if(n>=1e12)return (n/1e12).toFixed(2)+'T';if(n>=1e9)return (n/1e9).toFixed(2)+'B';if(n>=1e6)return (n/1e6).toFixed(2)+'M';return n}
+
+async function refreshLive(){
+  const dot=$('liveDot'), txt=$('liveText');
+  try{
+    const r=await fetch('/api/quotes');
+    const j=await r.json();
+    if(!j.ok) throw new Error(j.error||'fetch failed');
+    j.quotes.forEach(q=>{
+      if(!D[q.symbol] || q.price==null) return;
+      const prev = q.prevClose ?? D[q.symbol].price;
+      D[q.symbol].price = q.price;
+      D[q.symbol].change = q.price - prev;
+      D[q.symbol].changePct = prev ? ((q.price - prev)/prev*100) : 0;
+      D[q.symbol].yearLow = q.yearLow ?? D[q.symbol].yearLow;
+      D[q.symbol].yearHigh = q.yearHigh ?? D[q.symbol].yearHigh;
+    });
+    dot.className='dot on';
+    const t=new Date(j.fetchedAt);
+    txt.textContent='Live \u00b7 updated '+t.toLocaleTimeString();
+    home();
+    if($('stock').classList.contains('active')) openS(cur, true);
+  }catch(e){
+    dot.className='dot err';
+    txt.textContent='Live feed unavailable \u2014 showing last known prices';
+  }
+}
+
 function show(v){
   document.querySelectorAll('.view').forEach(x=>x.classList.remove('active'));
   $(v).classList.add('active');
@@ -110,9 +142,9 @@ function notes(){
   let d=data(),a=Object.entries(d).filter(x=>x[1].view);
   $('notesList').innerHTML=a.length?a.map(([s,v])=>`<div class="row"><span><b>${s} &middot; ${S[s]}</b><br><small>${v.view.slice(0,90)}&hellip;</small></span><button class="btn alt" onclick="openS('${s}')">Edit</button></div>`).join(''):'<p>No thesis notes yet. Start with one company.</p>';
 }
-function openS(s){
+function openS(s, silent){
   cur=s;let d=data()[s]||{};let v=D[s];
-  show('stock');
+  if(!silent) show('stock');
   $('detail').innerHTML=`
   <div class="ey">${state(s)}</div>
   <h1>${s} &middot; ${v.name}</h1>
@@ -134,7 +166,7 @@ function openS(s){
         <div class="metric"><small>CEO</small><b>${v.ceo}</b></div>
         <div class="metric"><small>EMPLOYEES</small><b>${v.employees.toLocaleString()}</b></div>
       </div>
-      <p class="note">Quotes and fundamentals from Perplexity Finance real-time data. Prices update when you refresh research; always confirm with a live source before trading.</p>
+      <p class="note">Price and change auto-refresh from a live feed every 60 seconds. Fundamentals (P/E, EPS, CEO) update less frequently. Always confirm with a live source before trading.</p>
     </div>
   </div>
   <div class="panel" id="thesis">
@@ -171,5 +203,7 @@ function saveT(){
   home();
 }
 home();
+refreshLive();
+setInterval(refreshLive, 60000);
 </script>
 </body></html>
