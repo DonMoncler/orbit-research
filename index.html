@@ -1,5 +1,5 @@
 <!doctype html><html><head><meta name="viewport" content="width=device-width,initial-scale=1"><title>ORBIT Research</title><style>
-:root{--i:#17212b;--m:#697784;--b:#f5f7fa;--c:#fff;--l:#e1e7ee;--p:#2563eb;--g:#15805e;--r:#c53a4a}
+:root{--i:#17212b;--m:#697784;--b:#f5f7fa;--c:#fff;--l:#e1e7ee;--p:#2563eb;--g:#15805e;--r:#c53a4a;--y:#a9720e}
 *{box-sizing:border-box}body{margin:0;background:var(--b);color:var(--i);font:15px system-ui,Arial}
 .app{max-width:1080px;margin:auto;padding:28px}
 .top{display:flex;justify-content:space-between;gap:20px;align-items:center;border-bottom:1px solid var(--l);padding-bottom:18px}
@@ -17,13 +17,14 @@ h1{font-size:35px;letter-spacing:-1.8px;margin:8px 0}p{color:var(--m);line-heigh
 .px{font-size:22px;font-weight:800;margin-top:15px;letter-spacing:-1px}
 .chg{font-size:12px;font-weight:750;margin-top:2px}.chg.up{color:var(--g)}.chg.down{color:var(--r)}
 .task{border-top:1px solid var(--l);margin-top:14px;padding-top:10px;font-size:11px;color:var(--p);font-weight:750}
-.card{margin-top:22px;padding:20px}.card h2{font-size:18px;margin:0}
+.card{margin-top:22px;padding:20px}.card h2{font-size:18px;margin:0 0 12px}
 .row{display:flex;justify-content:space-between;gap:15px;padding:13px 0;border-top:1px solid var(--l)}
+.row:first-child{border-top:0}
 .btn{border:0;border-radius:8px;padding:9px 12px;background:var(--p);color:#fff;font-weight:750;cursor:pointer}
 .btn.alt{background:#eaf0ff;color:#214db2}
 .back{all:unset;color:var(--p);font-weight:750;cursor:pointer;margin-top:25px}
-.tabs{display:flex;gap:18px;border-bottom:1px solid var(--l);margin-top:20px}
-.tabs button{all:unset;padding:10px 0;cursor:pointer;color:var(--m);font-weight:750}
+.tabs{display:flex;gap:18px;border-bottom:1px solid var(--l);margin-top:20px;overflow-x:auto}
+.tabs button{all:unset;padding:10px 0;cursor:pointer;color:var(--m);font-weight:750;white-space:nowrap}
 .tabs button.active{color:var(--p);border-bottom:2px solid var(--p)}
 .panel{display:none}.panel.active{display:block}
 .metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
@@ -34,12 +35,22 @@ h1{font-size:35px;letter-spacing:-1.8px;margin:8px 0}p{color:var(--m);line-heigh
 .progress{height:7px;background:#e8edf3;border-radius:5px;overflow:hidden;margin:10px 0}
 .progress i{display:block;height:100%;background:var(--p)}
 .badge{display:inline-block;font-size:11px;font-weight:750;padding:3px 9px;border-radius:20px;background:#eaf0ff;color:#214db2;margin-right:6px}
-.note{font-size:11px;color:var(--m);margin-top:6px}
+.note{font-size:11px;color:var(--m);margin-top:10px}
 .live{display:inline-flex;align-items:center;gap:6px;font-size:11px;color:var(--m);font-weight:700;margin-top:8px}
 .dot{width:7px;height:7px;border-radius:50%;background:#c7cdd6}
 .dot.on{background:var(--g);box-shadow:0 0 0 3px #15805e22}
 .dot.err{background:var(--r)}
-@media(max-width:750px){.grid{grid-template-columns:1fr 1fr}.top{display:block}nav{margin-top:15px;overflow:auto}.metrics{grid-template-columns:1fr 1fr}}
+.pt-bar{position:relative;height:34px;margin:14px 0 6px}
+.pt-track{position:absolute;top:14px;left:0;right:0;height:6px;background:#e8edf3;border-radius:4px}
+.pt-mark{position:absolute;top:2px;width:2px;height:14px}
+.pt-label{position:absolute;top:20px;font-size:10px;color:var(--m);font-weight:700;transform:translateX(-50%)}
+.rate-buy{color:var(--g);font-weight:800}.rate-sell{color:var(--r);font-weight:800}.rate-hold{color:var(--y);font-weight:800}
+.consensus-pill{display:inline-block;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:800;margin-bottom:10px}
+.pill-buy{background:#e7f5ee;color:var(--g)}.pill-hold{background:#fbf1de;color:var(--y)}
+.mini-table{width:100%;border-collapse:collapse;font-size:13px}
+.mini-table td,.mini-table th{padding:8px 4px;border-top:1px solid var(--l);text-align:left}
+.mini-table th{font-size:11px;color:var(--m);text-transform:uppercase;font-weight:700;border-top:0}
+@media(max-width:750px){.grid{grid-template-columns:1fr 1fr}.top{display:block}nav{margin-top:15px;overflow:auto}.metrics{grid-template-columns:1fr 1fr}.mini-table{font-size:11.5px}}
 @media(max-width:400px){.grid{grid-template-columns:1fr}.app{padding:18px}}
 </style></head><body>
 <main class="app">
@@ -79,7 +90,7 @@ h1{font-size:35px;letter-spacing:-1.8px;margin:8px 0}p{color:var(--m);line-heigh
 </main>
 
 <script>
-const D = {"AAPL": {"name": "Apple Inc.", "sector": "Technology", "industry": "Consumer Electronics", "ceo": "Timothy D. Cook", "employees": 166000, "price": 314.27, "change": -5.43, "changePct": -1.7, "marketCap": 4615795370120, "pe": 35.98, "eps": 8.73, "yearLow": 225.95, "yearHigh": 344.57, "desc": "Designs iPhone, Mac, iPad and wearables, and runs the App Store and services ecosystem (Apple Music, iCloud, Apple Pay)."}, "MSFT": {"name": "Microsoft Corporation", "sector": "Technology", "industry": "Software - Infrastructure", "ceo": "Satya Nadella", "employees": 223000, "price": 510.51, "change": -3.02, "changePct": -0.59, "marketCap": 3790817530500, "pe": 28.4, "eps": 17.28, "yearLow": 349.2, "yearHigh": 553.72, "desc": "Software and cloud giant behind Windows, Office 365, Azure cloud computing, GitHub, LinkedIn and Xbox."}, "NVDA": {"name": "NVIDIA Corporation", "sector": "Technology", "industry": "Semiconductors", "ceo": "Jensen Huang", "employees": 42000, "price": 219.72, "change": 2.17, "changePct": 1.0, "marketCap": 5321838120000, "pe": 27.73, "eps": 5.84, "yearLow": 164.07, "yearHigh": 236.54, "desc": "Designs GPUs for gaming and AI data centers; a dominant supplier of chips powering the AI computing boom."}, "AMZN": {"name": "Amazon.com, Inc.", "sector": "Consumer Cyclical", "industry": "Specialty Retail", "ceo": "Andrew R. Jassy", "employees": 1576000, "price": 261.2, "change": -5.23, "changePct": -1.96, "marketCap": 2809709340180, "pe": 21.0, "eps": 12.43, "yearLow": 196, "yearHigh": 287.2, "desc": "Global e-commerce retailer and operator of Amazon Web Services (AWS), the leading cloud computing platform."}, "GOOGL": {"name": "Alphabet Inc.", "sector": "Communication Services", "industry": "Internet Content & Information", "ceo": "Sundar Pichai", "employees": 198933, "price": 338.46, "change": -8.12, "changePct": -2.34, "marketCap": 4096141096416, "pe": 16.99, "eps": 19.91, "yearLow": 206.2, "yearHigh": 408.61, "desc": "Parent of Google Search, YouTube, Android and Google Cloud; generates most revenue from digital advertising."}};
+const D = {"AAPL": {"name": "Apple Inc.", "sector": "Technology", "industry": "Consumer Electronics", "ceo": "Timothy D. Cook", "employees": 166000, "price": 314.27, "change": -5.43, "changePct": -1.7, "marketCap": 4615795370120, "pe": 35.98, "eps": 8.73, "yearLow": 225.95, "yearHigh": 344.57, "desc": "Designs iPhone, Mac, iPad and wearables, and runs the App Store and services ecosystem (Apple Music, iCloud, Apple Pay).", "consensus": {"rating": "Buy", "total": 19, "bullish_pct": 78.9, "bearish_pct": 10.5, "avg_pt": 345.77, "high_pt": 400, "low_pt": 245, "median_pt": 360}, "recent_ratings": [{"date": "2026-08-17", "firm": "Rothschild & Co", "action": "Upgrades", "rating": "Buy", "pt": 400, "prior_pt": 260}, {"date": "2026-08-10", "firm": "Jefferies", "action": "Downgrades", "rating": "Underperform", "pt": 263.66, "prior_pt": 285.56}, {"date": "2026-07-31", "firm": "JP Morgan", "action": "Maintains", "rating": "Overweight", "pt": 340, "prior_pt": 345}, {"date": "2026-07-17", "firm": "HSBC", "action": "Upgrades", "rating": "Buy", "pt": 366, "prior_pt": 260}], "earnings": [{"period": "Q3 2026", "date": "2026-07-30", "epsActual": 2.02, "epsEst": 1.88, "revBeat": 378100000, "move": -7.35}, {"period": "Q2 2026", "date": "2026-04-30", "epsActual": 2.01, "epsEst": 1.92, "revBeat": 1726400000, "move": 3.24}, {"period": "Q1 2026", "date": "2026-01-29", "epsActual": 2.84, "epsEst": 2.65, "revBeat": 5365000000, "move": 0.46}, {"period": "Q4 2025", "date": "2025-10-30", "epsActual": 1.85, "epsEst": 1.73, "revBeat": 238900000, "move": -0.38}], "beatRate": "4 of 4 last quarters beat EPS estimates", "insider": "53 insider transactions in the last 6 months, mostly routine executive sales (10b5-1 plans) and stock awards. No unusual insider buying detected.", "margins": {"gross": 46.9, "operating": 32.0, "net": 26.9, "roe": 171.4, "debtEquity": 1.17, "evEbitda": 26.4, "year": "FY2025"}}, "MSFT": {"name": "Microsoft Corporation", "sector": "Technology", "industry": "Software - Infrastructure", "ceo": "Satya Nadella", "employees": 223000, "price": 510.51, "change": -3.02, "changePct": -0.59, "marketCap": 3790817530500, "pe": 28.4, "eps": 17.28, "yearLow": 349.2, "yearHigh": 553.72, "desc": "Software and cloud giant behind Windows, Office 365, Azure cloud computing, GitHub, LinkedIn and Xbox.", "consensus": {"rating": "Strong Buy", "total": 21, "bullish_pct": 95.2, "bearish_pct": 0, "avg_pt": 555.95, "high_pt": 700, "low_pt": 450, "median_pt": 540}, "recent_ratings": [{"date": "2026-08-12", "firm": "Wells Fargo", "action": "Maintains", "rating": "Overweight", "pt": 700, "prior_pt": 650}, {"date": "2026-08-05", "firm": "Tigress Financial", "action": "Maintains", "rating": "Buy", "pt": 690, "prior_pt": 680}, {"date": "2026-07-30", "firm": "Bernstein", "action": "Maintains", "rating": "Outperform", "pt": 647, "prior_pt": 646}, {"date": "2026-06-25", "firm": "Stifel", "action": "Maintains", "rating": "Hold", "pt": 400, "prior_pt": 415}], "earnings": [{"period": "Q4 2026", "date": "2026-07-29", "epsActual": 4.74, "epsEst": 4.21, "revBeat": 2387450000, "move": 15.51}, {"period": "Q3 2026", "date": "2026-04-29", "epsActual": 4.27, "epsEst": 4.07, "revBeat": 1441630000, "move": -3.93}, {"period": "Q2 2026", "date": "2026-01-28", "epsActual": 4.14, "epsEst": 3.88, "revBeat": 964300000, "move": -9.99}, {"period": "Q1 2026", "date": "2025-10-29", "epsActual": 4.13, "epsEst": 3.65, "revBeat": 2178321548, "move": -2.92}], "beatRate": "4 of 4 last quarters beat EPS estimates", "insider": "50 insider transactions in the last 6 months, mainly routine sales and stock awards from senior execs. No notable buying signal.", "margins": {"gross": 67.9, "operating": 46.8, "net": 40.3, "roe": 34.0, "debtEquity": 0.13, "evEbitda": 14.2, "year": "FY2026"}}, "NVDA": {"name": "NVIDIA Corporation", "sector": "Technology", "industry": "Semiconductors", "ceo": "Jensen Huang", "employees": 42000, "price": 219.72, "change": 2.17, "changePct": 1.0, "marketCap": 5321838120000, "pe": 27.73, "eps": 5.84, "yearLow": 164.07, "yearHigh": 236.54, "desc": "Designs GPUs for gaming and AI data centers; a dominant supplier of chips powering the AI computing boom.", "consensus": {"rating": "Strong Buy", "total": 20, "bullish_pct": 100, "bearish_pct": 0, "avg_pt": 350.55, "high_pt": 515, "low_pt": 300, "median_pt": 330}, "recent_ratings": [{"date": "2026-08-27", "firm": "Evercore ISI", "action": "Maintains", "rating": "Outperform", "pt": 465, "prior_pt": 413}, {"date": "2026-08-27", "firm": "JP Morgan", "action": "Maintains", "rating": "Overweight", "pt": 320, "prior_pt": 280}, {"date": "2026-08-27", "firm": "Citigroup", "action": "Maintains", "rating": "Buy", "pt": 315, "prior_pt": 300}, {"date": "2026-05-27", "firm": "Tigress Financial", "action": "Maintains", "rating": "Strong Buy", "pt": 425, "prior_pt": 360}], "earnings": [{"period": "Q2 2027", "date": "2026-08-26", "epsActual": 2.22, "epsEst": 2.09, "revBeat": 3950060000, "move": 8.74}, {"period": "Q1 2027", "date": "2026-05-20", "epsActual": 1.87, "epsEst": 1.77, "revBeat": 3191630000, "move": -1.77}, {"period": "Q4 2026", "date": "2026-02-25", "epsActual": 1.76, "epsEst": 1.52, "revBeat": 2000530000, "move": -5.46}, {"period": "Q3 2026", "date": "2025-11-19", "epsActual": 1.24, "epsEst": 1.24, "revBeat": 2044880322, "move": -3.15}], "beatRate": "4 of 4 last quarters beat EPS estimates; revenue beat every quarter for 2+ years", "insider": "83 insider transactions in the last 6 months. CFO sold ~300k shares (~$55M) in March; otherwise routine awards. Watch for cluster selling near highs.", "margins": {"gross": 71.1, "operating": 60.4, "net": 55.6, "roe": 101.5, "debtEquity": 0.07, "evEbitda": 33.8, "year": "FY2026"}}, "AMZN": {"name": "Amazon.com, Inc.", "sector": "Consumer Cyclical", "industry": "Specialty Retail", "ceo": "Andrew R. Jassy", "employees": 1576000, "price": 261.2, "change": -5.23, "changePct": -1.96, "marketCap": 2809709340180, "pe": 21.0, "eps": 12.43, "yearLow": 196, "yearHigh": 287.2, "desc": "Global e-commerce retailer and operator of Amazon Web Services (AWS), the leading cloud computing platform.", "consensus": {"rating": "Strong Buy", "total": 21, "bullish_pct": 95.2, "bearish_pct": 0, "avg_pt": 333.86, "high_pt": 400, "low_pt": 250, "median_pt": 330}, "recent_ratings": [{"date": "2026-07-31", "firm": "Truist Securities", "action": "Maintains", "rating": "Buy", "pt": 350, "prior_pt": 320}, {"date": "2026-07-31", "firm": "Telsey Advisory", "action": "Maintains", "rating": "Outperform", "pt": 335, "prior_pt": 315}, {"date": "2026-07-31", "firm": "UBS", "action": "Maintains", "rating": "Buy", "pt": 318, "prior_pt": 305}, {"date": "2026-07-16", "firm": "Keybanc", "action": "Maintains", "rating": "Overweight", "pt": 335, "prior_pt": 330}], "earnings": [{"period": "Q2 2026", "date": "2026-07-30", "epsActual": 5.75, "epsEst": 1.83, "revBeat": 3571200000, "move": 15.32}, {"period": "Q1 2026", "date": "2026-04-29", "epsActual": 2.78, "epsEst": 1.6, "revBeat": 4237600000, "move": 0.77}, {"period": "Q4 2025", "date": "2026-02-05", "epsActual": 1.95, "epsEst": 1.98, "revBeat": 1931200000, "move": -5.55}, {"period": "Q3 2025", "date": "2025-10-30", "epsActual": 1.95, "epsEst": 1.58, "revBeat": 2255785100, "move": 9.58}], "beatRate": "3 of 4 last quarters beat EPS estimates (missed slightly in Q4 2025)", "insider": "138 insider transactions in the last 6 months. Jeff Bezos made recurring share gifts (not sales); CEO Jassy exercised options. No alarming pattern.", "margins": {"gross": 50.3, "operating": 11.2, "net": 10.9, "roe": 22.4, "debtEquity": 0.37, "evEbitda": 17.2, "year": "FY2025"}}, "GOOGL": {"name": "Alphabet Inc.", "sector": "Communication Services", "industry": "Internet Content & Information", "ceo": "Sundar Pichai", "employees": 198933, "price": 338.46, "change": -8.12, "changePct": -2.34, "marketCap": 4096141096416, "pe": 16.99, "eps": 19.91, "yearLow": 206.2, "yearHigh": 408.61, "desc": "Parent of Google Search, YouTube, Android and Google Cloud; generates most revenue from digital advertising.", "consensus": {"rating": "Strong Buy", "total": 18, "bullish_pct": 83.3, "bearish_pct": 0, "avg_pt": 426.28, "high_pt": 515, "low_pt": 350, "median_pt": 422.5}, "recent_ratings": [{"date": "2026-07-23", "firm": "Pivotal Research", "action": "Maintains", "rating": "Buy", "pt": 475, "prior_pt": 470}, {"date": "2026-07-23", "firm": "Morgan Stanley", "action": "Maintains", "rating": "Overweight", "pt": 400, "prior_pt": 415}, {"date": "2026-07-23", "firm": "UBS", "action": "Maintains", "rating": "Neutral", "pt": 379, "prior_pt": 400}, {"date": "2026-05-21", "firm": "Wells Fargo", "action": "Maintains", "rating": "Overweight", "pt": 438, "prior_pt": 416}], "earnings": [{"period": "Q2 2026", "date": "2026-07-22", "epsActual": 9.11, "epsEst": 2.87, "revBeat": 3263500000, "move": -7.13}, {"period": "Q1 2026", "date": "2026-04-29", "epsActual": 5.11, "epsEst": 2.64, "revBeat": 2919900000, "move": 9.96}, {"period": "Q4 2025", "date": "2026-02-04", "epsActual": 2.82, "epsEst": 2.58, "revBeat": 2495600000, "move": -0.54}, {"period": "Q3 2025", "date": "2025-10-29", "epsActual": 2.87, "epsEst": 2.26, "revBeat": 2418590510, "move": 2.52}], "beatRate": "4 of 4 last quarters beat EPS estimates", "insider": "368 insider transactions in the last 6 months, dominated by routine stock awards to directors. No notable insider buying or selling clusters.", "margins": {"gross": 59.7, "operating": 32.0, "net": 32.8, "roe": 35.7, "debtEquity": 0.14, "evEbitda": 24.8, "year": "FY2025"}}};
 const S = Object.fromEntries(Object.entries(D).map(([k,v])=>[k,v.name]));
 let cur='AAPL';
 const $=x=>document.getElementById(x);
@@ -87,6 +98,7 @@ function data(){try{return JSON.parse(localStorage.orbitResearch||'{}')}catch{re
 function save(x){localStorage.orbitResearch=JSON.stringify(x)}
 function state(s){return data()[s]?.view?'THESIS WRITTEN':'START RESEARCH'}
 function fmt(n){if(n>=1e12)return (n/1e12).toFixed(2)+'T';if(n>=1e9)return (n/1e9).toFixed(2)+'B';if(n>=1e6)return (n/1e6).toFixed(2)+'M';return n}
+function ratingClass(r){r=r.toLowerCase();if(r.includes('buy')||r.includes('overweight')||r.includes('outperform'))return 'rate-buy';if(r.includes('sell')||r.includes('under'))return 'rate-sell';return 'rate-hold'}
 
 async function refreshLive(){
   const dot=$('liveDot'), txt=$('liveText');
@@ -136,15 +148,31 @@ function home(){
   $('next').textContent=n?`${n} of 5 theses started. Continue your research.`:'Choose a company to start your first thesis.';
 }
 function research(){
-  $('researchList').innerHTML=Object.entries(D).map(([s,v])=>`<div class="row"><span><b>${s} &middot; ${v.name}</b><br><small>${v.sector} &middot; ${state(s)}</small></span><button class="btn" onclick="openS('${s}')">Open research</button></div>`).join('');
+  $('researchList').innerHTML=Object.entries(D).map(([s,v])=>`<div class="row"><span><b>${s} &middot; ${v.name}</b><br><small>${v.sector} &middot; ${v.consensus.rating.toUpperCase()} \u00b7 ${state(s)}</small></span><button class="btn" onclick="openS('${s}')">Open research</button></div>`).join('');
 }
 function notes(){
   let d=data(),a=Object.entries(d).filter(x=>x[1].view);
   $('notesList').innerHTML=a.length?a.map(([s,v])=>`<div class="row"><span><b>${s} &middot; ${S[s]}</b><br><small>${v.view.slice(0,90)}&hellip;</small></span><button class="btn alt" onclick="openS('${s}')">Edit</button></div>`).join(''):'<p>No thesis notes yet. Start with one company.</p>';
 }
+
+function priceTargetBar(v){
+  const lo=v.consensus.low_pt, hi=v.consensus.high_pt, avg=v.consensus.avg_pt, curp=v.price;
+  const range=hi-lo;
+  const pct=x=>Math.max(0,Math.min(100,((x-lo)/range)*100));
+  return `<div class="pt-bar">
+    <div class="pt-track"></div>
+    <div class="pt-mark" style="left:${pct(curp)}%;background:#17212b" title="Current price"></div>
+    <div class="pt-mark" style="left:${pct(avg)}%;background:#2563eb" title="Average target"></div>
+    <div class="pt-label" style="left:0">$${lo}</div>
+    <div class="pt-label" style="left:${pct(curp)}%">Now $${curp.toFixed(0)}</div>
+    <div class="pt-label" style="left:100%;transform:translateX(-100%)">$${hi}</div>
+  </div>`;
+}
+
 function openS(s, silent){
   cur=s;let d=data()[s]||{};let v=D[s];
   if(!silent) show('stock');
+  const upside = (((v.consensus.avg_pt - v.price)/v.price)*100).toFixed(1);
   $('detail').innerHTML=`
   <div class="ey">${state(s)}</div>
   <h1>${s} &middot; ${v.name}</h1>
@@ -152,8 +180,12 @@ function openS(s, silent){
   <p>${v.desc}</p>
   <div class="tabs">
     <button class="active" onclick="tab('snap',this)">Snapshot</button>
+    <button onclick="tab('analysts',this)">Analysts</button>
+    <button onclick="tab('earn',this)">Earnings</button>
+    <button onclick="tab('fund',this)">Fundamentals</button>
     <button onclick="tab('thesis',this)">My thesis</button>
   </div>
+
   <div class="panel active" id="snap">
     <div class="card"><h2>Live snapshot</h2>
       <div class="metrics">
@@ -161,14 +193,54 @@ function openS(s, silent){
         <div class="metric"><small>DAY CHANGE</small><b style="color:${v.change>=0?'#15805e':'#c53a4a'}">${v.change>=0?'+':''}${v.change.toFixed(2)} (${v.changePct.toFixed(2)}%)</b></div>
         <div class="metric"><small>MARKET CAP</small><b>$${fmt(v.marketCap)}</b></div>
         <div class="metric"><small>P/E RATIO</small><b>${v.pe}</b></div>
-        <div class="metric"><small>EPS</small><b>$${v.eps}</b></div>
         <div class="metric"><small>52-WEEK RANGE</small><b>$${v.yearLow} &ndash; $${v.yearHigh}</b></div>
         <div class="metric"><small>CEO</small><b>${v.ceo}</b></div>
-        <div class="metric"><small>EMPLOYEES</small><b>${v.employees.toLocaleString()}</b></div>
       </div>
-      <p class="note">Price and change auto-refresh from a live feed every 60 seconds. Fundamentals (P/E, EPS, CEO) update less frequently. Always confirm with a live source before trading.</p>
+      <p class="note">Price auto-refreshes every 60s. Everything below is research context, not investment advice \u2014 use it to build your own thesis.</p>
     </div>
   </div>
+
+  <div class="panel" id="analysts">
+    <div class="card">
+      <h2>Wall Street consensus</h2>
+      <span class="consensus-pill ${v.consensus.rating.toLowerCase().includes('buy')?'pill-buy':'pill-hold'}">${v.consensus.rating.toUpperCase()} \u00b7 ${v.consensus.total} analysts</span>
+      <p>${v.consensus.bullish_pct}% bullish, ${v.consensus.bearish_pct}% bearish. Average 12-month price target implies ${upside>=0?'+':''}${upside}% ${upside>=0?'upside':'downside'} from today's price.</p>
+      ${priceTargetBar(v)}
+      <h2 style="margin-top:24px">Recent rating changes</h2>
+      <table class="mini-table"><tr><th>Date</th><th>Firm</th><th>Action</th><th>Rating</th><th>Target</th></tr>
+      ${v.recent_ratings.map(r=>`<tr><td>${r.date}</td><td>${r.firm}</td><td>${r.action}</td><td class="${ratingClass(r.rating)}">${r.rating}</td><td>$${r.pt}${r.prior_pt&&r.prior_pt!==r.pt?` <small style="color:#a1a9b3">(was $${r.prior_pt})</small>`:''}</td></tr>`).join('')}
+      </table>
+      <p class="note">Ratings and price targets from covering analysts at major banks and research firms. These are opinions, not guarantees \u2014 compare a few and form your own view.</p>
+    </div>
+  </div>
+
+  <div class="panel" id="earn">
+    <div class="card">
+      <h2>Earnings track record</h2>
+      <p>${v.beatRate}.</p>
+      <table class="mini-table"><tr><th>Quarter</th><th>Actual EPS</th><th>Estimate</th><th>Surprise</th><th>1-Day Move</th></tr>
+      ${v.earnings.map(e=>`<tr><td>${e.period}</td><td>$${e.epsActual}</td><td>$${e.epsEst}</td><td style="color:${e.epsActual>=e.epsEst?'#15805e':'#c53a4a'}">${e.epsActual>=e.epsEst?'+':''}${(e.epsActual-e.epsEst).toFixed(2)}</td><td style="color:${e.move>=0?'#15805e':'#c53a4a'}">${e.move>=0?'+':''}${e.move.toFixed(1)}%</td></tr>`).join('')}
+      </table>
+      <h2 style="margin-top:24px">Insider activity (6 months)</h2>
+      <p>${v.insider}</p>
+    </div>
+  </div>
+
+  <div class="panel" id="fund">
+    <div class="card">
+      <h2>Margins &amp; returns (${v.margins.year})</h2>
+      <div class="metrics">
+        <div class="metric"><small>GROSS MARGIN</small><b>${v.margins.gross}%</b></div>
+        <div class="metric"><small>OPERATING MARGIN</small><b>${v.margins.operating}%</b></div>
+        <div class="metric"><small>NET MARGIN</small><b>${v.margins.net}%</b></div>
+        <div class="metric"><small>RETURN ON EQUITY</small><b>${v.margins.roe}%</b></div>
+        <div class="metric"><small>DEBT / EQUITY</small><b>${v.margins.debtEquity}</b></div>
+        <div class="metric"><small>EV / EBITDA</small><b>${v.margins.evEbitda}x</b></div>
+      </div>
+      <p class="note">Higher margins usually mean more pricing power or efficiency. Compare these across your five companies to see which business converts sales into profit best.</p>
+    </div>
+  </div>
+
   <div class="panel" id="thesis">
     <div class="card"><h2>Write your thesis</h2>
     <p>Specific, falsifiable, and dated beats a vague opinion.</p>
