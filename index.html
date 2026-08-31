@@ -1,101 +1,140 @@
-<!doctype html><html><head><meta name="viewport" content="width=device-width,initial-scale=1"><title>ORBIT Research</title><style>
-:root{--bg:#0b0e14;--bg2:#11151f;--bg3:#161b26;--line:#232a38;--txt:#e4e8f1;--sub:#8892a4;--acc:#4f8bff;--g:#2fd482;--r:#ff5470;--y:#e0a419;--mono:'IBM Plex Mono','SF Mono',Consolas,monospace}
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ORBIT Research</title><style>
+:root{--ink:#e7ebef;--muted:#8b939b;--line:rgba(255,255,255,.14);--paper:#181b1f;--paper2:#121417;--red:#ff5b52;--redDeep:#c0392b;--green:#39e29d;--amber:#f5a623;--cyan:#5ad1ff;--shadow:0 20px 44px rgba(0,0,0,.55)}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--txt);font:14px/1.5 -apple-system,Segoe UI,Arial}
-.app{max-width:1120px;margin:auto;padding:24px}
-.top{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line);padding-bottom:14px}
-.logo{font-family:var(--mono);font-size:16px;font-weight:700;letter-spacing:1px;color:var(--txt)}
-.logo span{color:var(--acc)}
-nav{display:flex;gap:0;border:1px solid var(--line)}
-nav button{all:unset;cursor:pointer;color:var(--sub);font-size:12px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;padding:8px 16px;border-right:1px solid var(--line)}
-nav button:last-child{border-right:0}
-nav button.active{color:var(--bg);background:var(--acc)}
+body{margin:0;background:radial-gradient(1200px 800px at 15% -10%,rgba(200,215,230,.08),transparent 60%),radial-gradient(1000px 700px at 100% 0%,rgba(90,209,255,.06),transparent 55%),linear-gradient(180deg,#15181c 0%,#0d0f12 55%,#07080a 100%);color:var(--ink);font:13px/1.42 Segoe UI,Arial,sans-serif}
+.app{display:grid;grid-template-columns:220px minmax(0,1fr);min-height:100vh}
+.side{background:linear-gradient(180deg,#2a2e34 0%,#1a1d21 45%,#0c0e10 100%);border-right:1px solid rgba(255,255,255,.06);box-shadow:inset -1px 0 0 rgba(255,255,255,.05),10px 0 30px rgba(0,0,0,.45);color:#c3cad0;padding:24px 16px;position:sticky;top:0;height:100vh}
+.brand{display:flex;gap:10px;align-items:center;padding:4px 8px 24px}
+.eye{width:26px;height:26px;border-radius:50%;background:radial-gradient(circle,#fff 0% 5%,#8bb4ff 7%,#2e5fd0 19%,#152a63 38%,#151315 63%,#08090a 68%);box-shadow:0 0 0 2px rgba(255,255,255,.15),0 0 20px rgba(79,139,255,.4),inset 0 0 6px rgba(0,0,0,.5)}
+.brand b{font-size:13px;letter-spacing:.28em;color:#f4f6f9;text-shadow:0 0 12px rgba(255,255,255,.14)}
+.brand small{display:block;color:#828a92;font-size:8px;letter-spacing:.14em;margin-top:4px}
+.statusbar{height:2px;background:linear-gradient(90deg,var(--green) 0 40px,rgba(255,255,255,.08) 40px);box-shadow:0 0 10px rgba(57,226,157,.4);margin:0 8px 16px}
+.navlabel{color:#6f777f;font-size:8px;letter-spacing:.16em;margin:20px 8px 7px}
+nav.side-nav{display:grid;gap:2px}
+nav.side-nav button{all:unset;width:100%;display:flex;align-items:center;gap:9px;padding:9px 8px;color:#9aa3ab;font-size:11px;cursor:pointer;border-left:1px solid transparent}
+nav.side-nav button.active{background:linear-gradient(180deg,rgba(255,255,255,.07),rgba(255,255,255,.015));color:#fff;border-left-color:var(--cyan);box-shadow:inset 0 1px 0 rgba(255,255,255,.06)}
+.lamp{width:6px;height:6px;border-radius:50%;background:#4a4f56}
+nav.side-nav button.active .lamp{background:var(--cyan);box-shadow:0 0 10px #5ad1ff}
+.sidefoot{position:absolute;bottom:20px;left:24px;right:16px;border-top:1px solid rgba(255,255,255,.08);padding-top:10px;font-size:8px;color:#7d858d;letter-spacing:.1em}
+.sidefoot b{display:block;color:#4fe6b0;font-size:9px;margin-top:5px}
+main{width:min(1400px,100%);padding:32px 40px;margin:auto}
 .view{display:none}.view.active{display:block}
-.ey{font-family:var(--mono);font-size:10px;color:var(--acc);font-weight:700;text-transform:uppercase;letter-spacing:1.5px;margin-top:28px}
-h1{font-size:24px;font-weight:700;margin:6px 0 4px;letter-spacing:-.3px}
-p{color:var(--sub);line-height:1.6;font-size:13.5px}
-.live{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:11px;color:var(--sub);margin-top:10px}
-.dot{width:6px;height:6px;background:#3a4254}
-.dot.on{background:var(--g)}.dot.err{background:var(--r)}
-.grid{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;margin-top:20px;background:var(--line);border:1px solid var(--line)}
-.stock{background:var(--bg2);padding:14px;cursor:pointer}
-.stock:hover{background:var(--bg3)}
-.tk{font-family:var(--mono);font-weight:700;font-size:14px;letter-spacing:.5px}
-.co{color:var(--sub);font-size:10.5px;margin-top:2px;height:24px;overflow:hidden}
-.px{font-family:var(--mono);font-size:19px;font-weight:600;margin-top:12px}
-.chg{font-family:var(--mono);font-size:11px;font-weight:600;margin-top:3px}
-.chg.up{color:var(--g)}.chg.down{color:var(--r)}
-.task{border-top:1px solid var(--line);margin-top:12px;padding-top:8px;font-size:10px;color:var(--acc);font-weight:700;letter-spacing:.5px;text-transform:uppercase}
-.card{margin-top:16px;padding:18px 20px;background:var(--bg2);border:1px solid var(--line)}
-.card h2{font-size:13px;margin:0 0 12px;text-transform:uppercase;letter-spacing:.5px;color:var(--txt);font-weight:700}
-.row{display:flex;justify-content:space-between;gap:15px;padding:11px 0;border-top:1px solid var(--line)}
-.row:first-child{border-top:0}
-.btn{border:1px solid var(--acc);background:transparent;color:var(--acc);font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;padding:7px 14px;cursor:pointer}
-.btn:hover{background:var(--acc);color:var(--bg)}
-.btn.alt{border-color:var(--line);color:var(--sub)}
-.back{all:unset;color:var(--acc);font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;cursor:pointer;margin-top:24px;display:inline-block}
-.tabs{display:flex;border-bottom:1px solid var(--line);margin-top:22px;overflow-x:auto}
-.tabs button{all:unset;padding:10px 16px;cursor:pointer;color:var(--sub);font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;white-space:nowrap;border-bottom:2px solid transparent}
-.tabs button.active{color:var(--txt);border-bottom-color:var(--acc)}
-.panel{display:none}.panel.active{display:block}
-.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}
-.metric{background:var(--bg2);padding:11px 13px}
-.metric small{display:block;color:var(--sub);font-size:9.5px;font-weight:700;letter-spacing:.5px;text-transform:uppercase}
-.metric b{display:block;font-family:var(--mono);font-size:15px;margin-top:5px;font-weight:600}
-.input{display:block;width:100%;margin:6px 0 14px;background:var(--bg);border:1px solid var(--line);color:var(--txt);padding:9px 11px;font:13px inherit}
-.label{font-size:11px;font-weight:700;color:var(--sub);text-transform:uppercase;letter-spacing:.5px}
-.progress{height:3px;background:var(--line);margin:10px 0}
-.progress i{display:block;height:100%;background:var(--acc)}
-.badge{display:inline-block;font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;padding:3px 8px;border:1px solid var(--line);color:var(--sub);margin-right:6px}
-.note{font-size:11.5px;color:var(--sub);margin-top:12px;border-left:2px solid var(--line);padding-left:10px}
-.pt-bar{position:relative;height:36px;margin:16px 0 8px}
-.pt-track{position:absolute;top:16px;left:0;right:0;height:2px;background:var(--line)}
+.top{display:flex;justify-content:space-between;gap:20px;margin-bottom:20px;flex-wrap:wrap}
+.kicker{font-size:9px;letter-spacing:.16em;color:var(--cyan);font-weight:bold;text-shadow:0 0 8px rgba(90,209,255,.4)}
+.top h1{font-size:28px;font-weight:400;letter-spacing:-.04em;margin:8px 0 4px;color:#f3f5f8}
+.top p{color:#9aa3ab;font-size:12px;margin:0}
+.date{border:1px solid rgba(255,255,255,.2);background:linear-gradient(180deg,#23272c,#15181b);padding:8px 10px;font-size:9px;letter-spacing:.07em;height:max-content;color:#cfd6dc;box-shadow:inset 0 1px 0 rgba(255,255,255,.06)}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid rgba(255,255,255,.14);background:linear-gradient(180deg,#1d2024,#121417);margin-bottom:16px}
+.stat{padding:12px 14px;border-right:1px solid rgba(255,255,255,.08);min-height:78px}
+.stat:last-child{border:0}
+.stat span{font-size:8px;color:#8b939b;letter-spacing:.09em}
+.stat b{display:block;font-size:20px;font-weight:400;margin:6px 0 2px;color:#f2f5f8}
+.stat em{font-style:normal;font-size:9px;color:var(--green)}
+.panel{background:repeating-linear-gradient(135deg,rgba(255,255,255,.012) 0px,rgba(255,255,255,.012) 2px,transparent 2px,transparent 6px),linear-gradient(180deg,#1b1e22,#121417);border:1px solid rgba(255,255,255,.14);box-shadow:var(--shadow),inset 0 1px 0 rgba(255,255,255,.05);margin-bottom:16px}
+.phead{display:flex;justify-content:space-between;gap:10px;padding:14px 16px;border-bottom:1px solid rgba(255,255,255,.1)}
+.phead h2{font-size:13px;font-weight:400;margin:0;color:#f2f5f8}
+.phead p{font-size:10px;color:#8b939b;margin:4px 0 0}
+.tag{color:var(--red);font-size:8px;letter-spacing:.1em;border:1px solid var(--red);padding:4px;height:max-content;background:rgba(255,91,82,.08)}
+.tag.live{color:var(--green);border-color:var(--green);background:rgba(57,226,157,.08);text-shadow:0 0 6px rgba(57,226,157,.35)}
+.thead,.row{display:grid;grid-template-columns:70px 1.6fr 110px 110px 90px;gap:8px;align-items:center}
+.thead{padding:9px 13px;background:linear-gradient(180deg,#202327,#171a1d);border-bottom:1px solid rgba(255,255,255,.08);font-size:8px;color:#8b939b;letter-spacing:.06em}
+.rows{padding:0 8px}
+.row{padding:12px 5px;border-bottom:1px solid rgba(255,255,255,.06);cursor:pointer}
+.row:hover{background:rgba(255,255,255,.03)}
+.tkr b{font-size:13px;letter-spacing:.06em;color:#eef2f5}
+.tkr span{display:block;font-size:8px;color:#8b939b;margin-top:3px}
+.px{font-size:12px;color:#eef2f5}
+.chg{font-size:10px;display:block;margin-top:2px}
+.chg.up{color:var(--green)}.chg.down{color:var(--red)}
+.openlink{font-size:9px;color:var(--cyan);text-align:right}
+.card{padding:16px}
+.card h2{font-size:13px;margin:0 0 12px;font-weight:400;color:#f2f5f8;letter-spacing:.02em}
+.mrow{display:flex;justify-content:space-between;gap:15px;padding:10px 0;border-top:1px solid rgba(255,255,255,.07)}
+.mrow:first-child{border-top:0}
+.btn{border:1px solid rgba(255,255,255,.2);background:linear-gradient(180deg,#2b2f34,#17191c);color:#dfe4e8;padding:9px 12px;font-size:9px;letter-spacing:.09em;cursor:pointer;box-shadow:inset 0 1px 0 rgba(255,255,255,.07)}
+.btn.blue{border-color:var(--cyan);color:var(--cyan);background:linear-gradient(180deg,#182226,#0f151a);box-shadow:0 0 10px rgba(90,209,255,.18)}
+.btn.alt{color:#8b939b}
+.back{all:unset;border:1px solid rgba(255,255,255,.2);background:linear-gradient(180deg,#23272c,#16181b);padding:8px 12px;font-size:9px;cursor:pointer;margin-bottom:18px;color:#dfe4e8;display:inline-block}
+.tabs{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap}
+.tabbtn{border:1px solid rgba(255,255,255,.18);background:linear-gradient(180deg,#23272c,#16181b);padding:9px 13px;font-size:10px;letter-spacing:.05em;cursor:pointer;color:#cfd6dc}
+.tabbtn.active{background:linear-gradient(180deg,#3c4248,#1a1d20);color:#fff;box-shadow:0 0 0 1px rgba(90,209,255,.4),0 0 16px rgba(90,209,255,.2) inset}
+.tabpanel{display:none}.tabpanel.active{display:block}
+.metrics{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px}
+.metric{border:1px solid rgba(255,255,255,.12);padding:10px;background:linear-gradient(180deg,#1b1e22,#141619)}
+.metric span{display:block;font-size:8px;color:#8b939b;letter-spacing:.05em}
+.metric b{display:block;font-size:13px;font-weight:400;margin-top:5px;color:#eef2f5}
+.stockTitle{display:flex;gap:12px;align-items:baseline;flex-wrap:wrap}
+.symbol{letter-spacing:.1em;color:#eef2f5}
+.inlinePrice{font-size:22px;color:#f2f5f8}
+.about{background:linear-gradient(180deg,#1d2024,#141619);border-left:3px solid var(--cyan);padding:12px;font-size:11px;color:#c9d1d6}
+.note{font-size:10px;border-left:3px solid var(--red);padding:8px 10px;background:rgba(255,91,82,.07);margin-top:14px;color:#c9d1d6}
+.mini-table{width:100%;border-collapse:collapse;font-size:11.5px}
+.mini-table td,.mini-table th{padding:8px 6px;border-top:1px solid rgba(255,255,255,.08);text-align:left;color:#dfe4e8}
+.mini-table th{font-size:8.5px;color:#8b939b;text-transform:uppercase;letter-spacing:.06em;border-top:0}
+.pill{display:inline-block;padding:4px 10px;font-size:10px;letter-spacing:.05em;margin-bottom:10px;border:1px solid}
+.pill-buy{border-color:var(--green);color:var(--green)}.pill-hold{border-color:var(--amber);color:var(--amber)}
+.pt-bar{position:relative;height:36px;margin:14px 0 6px}
+.pt-track{position:absolute;top:16px;left:0;right:0;height:2px;background:rgba(255,255,255,.14)}
 .pt-mark{position:absolute;top:8px;width:1px;height:18px}
-.pt-label{position:absolute;top:24px;font-family:var(--mono);font-size:10px;color:var(--sub);font-weight:600;transform:translateX(-50%)}
-.rate-buy{color:var(--g);font-weight:700}.rate-sell{color:var(--r);font-weight:700}.rate-hold{color:var(--y);font-weight:700}
-.consensus-pill{display:inline-block;font-family:var(--mono);padding:4px 10px;font-size:11px;font-weight:700;letter-spacing:.5px;margin-bottom:12px;border:1px solid}
-.pill-buy{border-color:var(--g);color:var(--g)}.pill-hold{border-color:var(--y);color:var(--y)}
-.mini-table{width:100%;border-collapse:collapse;font-size:12.5px}
-.mini-table td,.mini-table th{padding:9px 6px;border-top:1px solid var(--line);text-align:left;font-family:var(--mono)}
-.mini-table th{font-size:10px;color:var(--sub);text-transform:uppercase;font-weight:700;border-top:0;letter-spacing:.5px}
-@media(max-width:750px){.grid{grid-template-columns:1fr 1fr}.top{flex-direction:column;align-items:flex-start;gap:12px}nav{overflow-x:auto;max-width:100%}.metrics{grid-template-columns:1fr 1fr}.mini-table{font-size:11px}}
-@media(max-width:400px){.grid{grid-template-columns:1fr}.app{padding:16px}}
+.pt-label{position:absolute;top:24px;font-size:9px;color:#8b939b;transform:translateX(-50%)}
+.rate-buy{color:var(--green)}.rate-sell{color:var(--red)}.rate-hold{color:var(--amber)}
+textarea.input,input.input{width:100%;border:1px solid rgba(255,255,255,.16);padding:9px;font:11px Arial;background:#14171a;color:#dfe4e8;margin:5px 0 14px}
+.label{font-size:8px;color:#8b939b;letter-spacing:.05em}
+.progress{height:2px;background:rgba(255,255,255,.14);margin:10px 0;border-top:2px solid rgba(255,255,255,.14)}
+.progress i{display:block;height:100%;background:var(--cyan)}
+@media(max-width:900px){.app{grid-template-columns:60px 1fr}.brand small,.brand b,.navlabel,nav.side-nav span,.sidefoot{display:none}nav.side-nav button{justify-content:center}}
+@media(max-width:650px){.app{display:block}.side{display:none}main{padding:16px}.stats{grid-template-columns:1fr 1fr}.thead{display:none}.row{grid-template-columns:44px 1fr 70px}.metrics{grid-template-columns:1fr 1fr}}
 </style></head><body>
-<main class="app">
-<header class="top"><div class="logo">ORBIT<span>_</span>RESEARCH</div>
-<nav><button class="active" data-v="dash">DASHBOARD</button><button data-v="research">RESEARCH</button><button data-v="notes">NOTES</button><button data-v="learn">LEARN</button></nav>
-</header>
+<div class="app">
+<aside class="side">
+<div class="brand"><div class="eye"></div><div><b>ORBIT</b><small>RESEARCH CONSOLE</small></div></div>
+<div class="statusbar"></div>
+<div class="navlabel">RESEARCH CONSOLE</div>
+<nav class="side-nav">
+<button class="active" data-v="dash"><span class="lamp"></span><span>Dashboard</span></button>
+<button data-v="research"><span class="lamp"></span><span>Research</span></button>
+<button data-v="notes"><span class="lamp"></span><span>My Plans</span></button>
+<button data-v="learn"><span class="lamp"></span><span>Learn</span></button>
+</nav>
+<div class="sidefoot">DATA STATUS<b id="sideStatus">CONNECTING&hellip;</b></div>
+</aside>
 
+<main>
 <section class="view active" id="dash">
-<div class="ey">FIVE-COMPANY LEARNING SET</div>
-<h1>Build better stock habits.</h1>
-<p>Choose a company. Understand the business. Write what you believe. Revisit when new information arrives.</p>
-<div class="live" id="liveStatus"><span class="dot" id="liveDot"></span><span id="liveText">CONNECTING&hellip;</span></div>
-<div class="grid" id="cards"></div>
-<div class="card"><h2>Next step</h2><p id="next">Choose a company to start your first thesis.</p></div>
+<div class="top">
+<div><div class="kicker">RESEARCH CONSOLE &middot; DASHBOARD</div><h1>Five-company learning set.</h1><p>Choose a company. Understand the business. Write what you believe. Revisit when new information arrives.</p></div>
+<div class="date" id="liveTag">LIVE FEED LOADING</div>
+</div>
+<section class="stats" id="statsRow"></section>
+<section class="panel">
+<div class="phead"><div><h2>WATCHLIST</h2><p>Click any row to open full research.</p></div><span class="tag live">LIVE</span></div>
+<div class="thead"><div>TICKER</div><div>COMPANY</div><div>PRICE</div><div>CHANGE</div><div>RATING</div></div>
+<div class="rows" id="cards"></div>
+</section>
 </section>
 
 <section class="view" id="research">
-<div class="ey">RESEARCH</div><h1>Start with a company you know.</h1>
-<div class="card" id="researchList"></div>
+<div class="top"><div><div class="kicker">RESEARCH CONSOLE &middot; RESEARCH</div><h1>Start with a company you know.</h1></div></div>
+<section class="panel"><div class="card" id="researchList"></div></section>
 </section>
 
 <section class="view" id="notes">
-<div class="ey">MY NOTES</div><h1>Your thesis library.</h1>
-<div class="card" id="notesList"></div>
+<div class="top"><div><div class="kicker">RESEARCH CONSOLE &middot; MY PLANS</div><h1>Your thesis library.</h1></div></div>
+<section class="panel"><div class="card" id="notesList"></div></section>
 </section>
 
 <section class="view" id="learn">
-<div class="ey">LEARN</div><h1>Three rules before you invest.</h1>
-<div class="card">
-<div class="row"><b>Know the business</b><span>Explain it in one sentence.</span></div>
-<div class="row"><b>Name the risk</b><span>Know what proves you wrong.</span></div>
-<div class="row"><b>Set a horizon</b><span>Separate today's move from a long-term view.</span></div>
-</div>
+<div class="top"><div><div class="kicker">RESEARCH CONSOLE &middot; LEARN</div><h1>Three rules before you invest.</h1></div></div>
+<section class="panel"><div class="card">
+<div class="mrow"><b>Know the business</b><span style="color:#9aa3ab">Explain it in one sentence.</span></div>
+<div class="mrow"><b>Name the risk</b><span style="color:#9aa3ab">Know what proves you wrong.</span></div>
+<div class="mrow"><b>Set a horizon</b><span style="color:#9aa3ab">Separate today's move from a long-term view.</span></div>
+</div></section>
 </section>
 
-<section class="view" id="stock"><button class="back" onclick="show('dash')">&larr; DASHBOARD</button><div id="detail"></div></section>
+<section class="view" id="stock"><button class="back" onclick="show('dash')">&larr; RETURN TO DASHBOARD</button><div id="detail"></div></section>
 </main>
+</div>
 
 <script>
 const D = {"AAPL": {"name": "Apple Inc.", "sector": "Technology", "industry": "Consumer Electronics", "ceo": "Timothy D. Cook", "price": 314.27, "change": -5.43, "changePct": -1.7, "marketCap": 4615795370120, "pe": 35.98, "yearLow": 225.95, "yearHigh": 344.57, "eps": 8.73, "employees": 166000, "volume": 14958921, "avgVolume": 54939019, "divYield": 0.0, "dayLow": 313.05, "dayHigh": 321.24, "desc": "Apple Inc. is a global technology corporation that specializes in the conceptualization, production, and sale of a diverse suite of electronic devices. Its comprehensive hardware lineup features the well-known iPhone smartphones, Mac personal computers, and versatile iPad tablets, plus wearables like AirPods and Apple Watch. Beyond devices, Apple runs the App Store, and subscription services including Apple Music, Apple TV+, iCloud, and Apple Pay. Headquartered in Cupertino, California.", "consensus": {"rating": "Buy", "total": 19, "bullish_pct": 78.9, "bearish_pct": 10.5, "avg_pt": 345.77, "high_pt": 400, "low_pt": 245, "median_pt": 360}, "recent_ratings": [{"date": "2026-08-17", "firm": "Rothschild & Co", "action": "Upgrades", "rating": "Buy", "pt": 400, "prior_pt": 260}, {"date": "2026-08-10", "firm": "Jefferies", "action": "Downgrades", "rating": "Underperform", "pt": 263.66, "prior_pt": 285.56}, {"date": "2026-07-31", "firm": "JP Morgan", "action": "Maintains", "rating": "Overweight", "pt": 340, "prior_pt": 345}, {"date": "2026-07-17", "firm": "HSBC", "action": "Upgrades", "rating": "Buy", "pt": 366, "prior_pt": 260}], "earnings": [{"period": "Q3 2026", "date": "2026-07-30", "epsActual": 2.02, "epsEst": 1.88, "revBeat": 378100000, "move": -7.35}, {"period": "Q2 2026", "date": "2026-04-30", "epsActual": 2.01, "epsEst": 1.92, "revBeat": 1726400000, "move": 3.24}, {"period": "Q1 2026", "date": "2026-01-29", "epsActual": 2.84, "epsEst": 2.65, "revBeat": 5365000000, "move": 0.46}, {"period": "Q4 2025", "date": "2025-10-30", "epsActual": 1.85, "epsEst": 1.73, "revBeat": 238900000, "move": -0.38}], "beatRate": "4 of 4 last quarters beat EPS estimates", "insider": "53 insider transactions in the last 6 months, mostly routine executive sales (10b5-1 plans) and stock awards. No unusual insider buying detected.", "margins": {"gross": 46.9, "operating": 32.0, "net": 26.9, "roe": 171.4, "debtEquity": 1.17, "evEbitda": 26.4, "year": "FY2025"}}, "MSFT": {"name": "Microsoft Corporation", "sector": "Technology", "industry": "Software - Infrastructure", "ceo": "Satya Nadella", "price": 510.51, "change": -3.02, "changePct": -0.59, "marketCap": 3790817530500, "pe": 28.4, "yearLow": 349.2, "yearHigh": 553.72, "eps": 17.28, "employees": 223000, "volume": 7985676, "avgVolume": 38141796, "divYield": 0.01, "dayLow": 509.22, "dayHigh": 512.19, "desc": "Microsoft Corporation invents, markets, and supports software, devices, and cloud services worldwide. Its three segments are Productivity and Business Processes (Office 365, Teams, LinkedIn), Intelligent Cloud (Azure, GitHub, SQL Server), and More Personal Computing (Windows, Surface, Xbox). Headquartered in Redmond, Washington.", "consensus": {"rating": "Strong Buy", "total": 21, "bullish_pct": 95.2, "bearish_pct": 0, "avg_pt": 555.95, "high_pt": 700, "low_pt": 450, "median_pt": 540}, "recent_ratings": [{"date": "2026-08-12", "firm": "Wells Fargo", "action": "Maintains", "rating": "Overweight", "pt": 700, "prior_pt": 650}, {"date": "2026-08-05", "firm": "Tigress Financial", "action": "Maintains", "rating": "Buy", "pt": 690, "prior_pt": 680}, {"date": "2026-07-30", "firm": "Bernstein", "action": "Maintains", "rating": "Outperform", "pt": 647, "prior_pt": 646}, {"date": "2026-06-25", "firm": "Stifel", "action": "Maintains", "rating": "Hold", "pt": 400, "prior_pt": 415}], "earnings": [{"period": "Q4 2026", "date": "2026-07-29", "epsActual": 4.74, "epsEst": 4.21, "revBeat": 2387450000, "move": 15.51}, {"period": "Q3 2026", "date": "2026-04-29", "epsActual": 4.27, "epsEst": 4.07, "revBeat": 1441630000, "move": -3.93}, {"period": "Q2 2026", "date": "2026-01-28", "epsActual": 4.14, "epsEst": 3.88, "revBeat": 964300000, "move": -9.99}, {"period": "Q1 2026", "date": "2025-10-29", "epsActual": 4.13, "epsEst": 3.65, "revBeat": 2178321548, "move": -2.92}], "beatRate": "4 of 4 last quarters beat EPS estimates", "insider": "50 insider transactions in the last 6 months, mainly routine sales and stock awards from senior execs. No notable buying signal.", "margins": {"gross": 67.9, "operating": 46.8, "net": 40.3, "roe": 34.0, "debtEquity": 0.13, "evEbitda": 14.2, "year": "FY2026"}}, "NVDA": {"name": "NVIDIA Corporation", "sector": "Technology", "industry": "Semiconductors", "ceo": "Jensen Huang", "price": 219.72, "change": 2.17, "changePct": 1.0, "marketCap": 5321838120000, "pe": 27.73, "yearLow": 164.07, "yearHigh": 236.54, "eps": 5.84, "employees": 42000, "volume": 55528844, "avgVolume": 140227025, "divYield": 0.0, "dayLow": 216.21, "dayHigh": 220.6, "desc": "NVIDIA Corporation designs graphics, computing, and networking chips. Its Graphics segment covers GeForce GPUs for PC gaming; its Compute & Networking segment covers AI/data-center accelerators (a dominant supplier for the AI computing boom), automotive AI platforms, and Mellanox networking. Headquartered in Santa Clara, California.", "consensus": {"rating": "Strong Buy", "total": 20, "bullish_pct": 100, "bearish_pct": 0, "avg_pt": 350.55, "high_pt": 515, "low_pt": 300, "median_pt": 330}, "recent_ratings": [{"date": "2026-08-27", "firm": "Evercore ISI", "action": "Maintains", "rating": "Outperform", "pt": 465, "prior_pt": 413}, {"date": "2026-08-27", "firm": "JP Morgan", "action": "Maintains", "rating": "Overweight", "pt": 320, "prior_pt": 280}, {"date": "2026-08-27", "firm": "Citigroup", "action": "Maintains", "rating": "Buy", "pt": 315, "prior_pt": 300}, {"date": "2026-05-27", "firm": "Tigress Financial", "action": "Maintains", "rating": "Strong Buy", "pt": 425, "prior_pt": 360}], "earnings": [{"period": "Q2 2027", "date": "2026-08-26", "epsActual": 2.22, "epsEst": 2.09, "revBeat": 3950060000, "move": 8.74}, {"period": "Q1 2027", "date": "2026-05-20", "epsActual": 1.87, "epsEst": 1.77, "revBeat": 3191630000, "move": -1.77}, {"period": "Q4 2026", "date": "2026-02-25", "epsActual": 1.76, "epsEst": 1.52, "revBeat": 2000530000, "move": -5.46}, {"period": "Q3 2026", "date": "2025-11-19", "epsActual": 1.24, "epsEst": 1.24, "revBeat": 2044880322, "move": -3.15}], "beatRate": "4 of 4 last quarters beat EPS estimates; revenue beat every quarter for 2+ years", "insider": "83 insider transactions in the last 6 months. CFO sold ~300k shares (~$55M) in March; otherwise routine awards. Watch for cluster selling near highs.", "margins": {"gross": 71.1, "operating": 60.4, "net": 55.6, "roe": 101.5, "debtEquity": 0.07, "evEbitda": 33.8, "year": "FY2026"}}, "AMZN": {"name": "Amazon.com, Inc.", "sector": "Consumer Cyclical", "industry": "Specialty Retail", "ceo": "Andrew R. Jassy", "price": 261.2, "change": -5.23, "changePct": -1.96, "marketCap": 2809709340180, "pe": 21.0, "yearLow": 196, "yearHigh": 287.2, "eps": 12.43, "employees": 1576000, "volume": 14129234, "avgVolume": 49073576, "divYield": 0.0, "dayLow": 259.72, "dayHigh": 264.36, "desc": "Amazon.com, Inc. operates a global e-commerce marketplace and cloud computing business (AWS). Segments are North America, International, and AWS. It also makes devices (Kindle, Echo, Ring), produces original media, and runs advertising and Prime membership businesses. Headquartered in Seattle, Washington.", "consensus": {"rating": "Strong Buy", "total": 21, "bullish_pct": 95.2, "bearish_pct": 0, "avg_pt": 333.86, "high_pt": 400, "low_pt": 250, "median_pt": 330}, "recent_ratings": [{"date": "2026-07-31", "firm": "Truist Securities", "action": "Maintains", "rating": "Buy", "pt": 350, "prior_pt": 320}, {"date": "2026-07-31", "firm": "Telsey Advisory", "action": "Maintains", "rating": "Outperform", "pt": 335, "prior_pt": 315}, {"date": "2026-07-31", "firm": "UBS", "action": "Maintains", "rating": "Buy", "pt": 318, "prior_pt": 305}, {"date": "2026-07-16", "firm": "Keybanc", "action": "Maintains", "rating": "Overweight", "pt": 335, "prior_pt": 330}], "earnings": [{"period": "Q2 2026", "date": "2026-07-30", "epsActual": 5.75, "epsEst": 1.83, "revBeat": 3571200000, "move": 15.32}, {"period": "Q1 2026", "date": "2026-04-29", "epsActual": 2.78, "epsEst": 1.6, "revBeat": 4237600000, "move": 0.77}, {"period": "Q4 2025", "date": "2026-02-05", "epsActual": 1.95, "epsEst": 1.98, "revBeat": 1931200000, "move": -5.55}, {"period": "Q3 2025", "date": "2025-10-30", "epsActual": 1.95, "epsEst": 1.58, "revBeat": 2255785100, "move": 9.58}], "beatRate": "3 of 4 last quarters beat EPS estimates (missed slightly in Q4 2025)", "insider": "138 insider transactions in the last 6 months. Jeff Bezos made recurring share gifts (not sales); CEO Jassy exercised options. No alarming pattern.", "margins": {"gross": 50.3, "operating": 11.2, "net": 10.9, "roe": 22.4, "debtEquity": 0.37, "evEbitda": 17.2, "year": "FY2025"}}, "GOOGL": {"name": "Alphabet Inc.", "sector": "Communication Services", "industry": "Internet Content & Information", "ceo": "Sundar Pichai", "price": 338.46, "change": -8.12, "changePct": -2.34, "marketCap": 4096141096416, "pe": 16.99, "yearLow": 206.2, "yearHigh": 408.61, "eps": 19.91, "employees": 198933, "volume": 9614935, "avgVolume": 31574739, "divYield": 0.0, "dayLow": 337.16, "dayHigh": 344.59, "desc": "Alphabet Inc. is the parent of Google. Google Services covers Search, YouTube, Android, Chrome, Gmail, and advertising; Google Cloud offers infrastructure and Workspace tools for businesses; Other Bets covers health tech and other ventures. Headquartered in Mountain View, California.", "consensus": {"rating": "Strong Buy", "total": 18, "bullish_pct": 83.3, "bearish_pct": 0, "avg_pt": 426.28, "high_pt": 515, "low_pt": 350, "median_pt": 422.5}, "recent_ratings": [{"date": "2026-07-23", "firm": "Pivotal Research", "action": "Maintains", "rating": "Buy", "pt": 475, "prior_pt": 470}, {"date": "2026-07-23", "firm": "Morgan Stanley", "action": "Maintains", "rating": "Overweight", "pt": 400, "prior_pt": 415}, {"date": "2026-07-23", "firm": "UBS", "action": "Maintains", "rating": "Neutral", "pt": 379, "prior_pt": 400}, {"date": "2026-05-21", "firm": "Wells Fargo", "action": "Maintains", "rating": "Overweight", "pt": 438, "prior_pt": 416}], "earnings": [{"period": "Q2 2026", "date": "2026-07-22", "epsActual": 9.11, "epsEst": 2.87, "revBeat": 3263500000, "move": -7.13}, {"period": "Q1 2026", "date": "2026-04-29", "epsActual": 5.11, "epsEst": 2.64, "revBeat": 2919900000, "move": 9.96}, {"period": "Q4 2025", "date": "2026-02-04", "epsActual": 2.82, "epsEst": 2.58, "revBeat": 2495600000, "move": -0.54}, {"period": "Q3 2025", "date": "2025-10-29", "epsActual": 2.87, "epsEst": 2.26, "revBeat": 2418590510, "move": 2.52}], "beatRate": "4 of 4 last quarters beat EPS estimates", "insider": "368 insider transactions in the last 6 months, dominated by routine stock awards to directors. No notable insider buying or selling clusters.", "margins": {"gross": 59.7, "operating": 32.0, "net": 32.8, "roe": 35.7, "debtEquity": 0.14, "evEbitda": 24.8, "year": "FY2025"}}};
@@ -109,7 +148,6 @@ function fmt(n){if(n>=1e12)return (n/1e12).toFixed(2)+'T';if(n>=1e9)return (n/1e
 function ratingClass(r){r=r.toLowerCase();if(r.includes('buy')||r.includes('overweight')||r.includes('outperform'))return 'rate-buy';if(r.includes('sell')||r.includes('under'))return 'rate-sell';return 'rate-hold'}
 
 async function refreshLive(){
-  const dot=$('liveDot'), txt=$('liveText');
   try{
     const r=await fetch('/api/quotes');
     const j=await r.json();
@@ -123,44 +161,51 @@ async function refreshLive(){
       D[q.symbol].yearLow = q.yearLow ?? D[q.symbol].yearLow;
       D[q.symbol].yearHigh = q.yearHigh ?? D[q.symbol].yearHigh;
     });
-    dot.className='dot on';
     const t=new Date(j.fetchedAt);
-    txt.textContent='LIVE \u00b7 '+t.toLocaleTimeString();
+    $('liveTag').textContent='LIVE \u00b7 '+t.toLocaleTimeString();
+    $('sideStatus').textContent='REAL MARKET DATA LOADED';
     home();
     if($('stock').classList.contains('active')) openS(cur, true);
   }catch(e){
-    dot.className='dot err';
-    txt.textContent='FEED UNAVAILABLE \u2014 LAST KNOWN PRICES';
+    $('liveTag').textContent='FEED UNAVAILABLE';
+    $('sideStatus').textContent='LAST KNOWN PRICES';
   }
 }
 
 function show(v){
   document.querySelectorAll('.view').forEach(x=>x.classList.remove('active'));
   $(v).classList.add('active');
-  document.querySelectorAll('nav button').forEach(x=>x.classList.toggle('active',x.dataset.v===v));
+  document.querySelectorAll('.side-nav button').forEach(x=>x.classList.toggle('active',x.dataset.v===v));
   if(v==='research')research();if(v==='notes')notes();
+  window.scrollTo(0,0);
 }
-document.querySelectorAll('nav button').forEach(x=>x.onclick=()=>show(x.dataset.v));
+document.querySelectorAll('.side-nav button').forEach(x=>x.onclick=()=>show(x.dataset.v));
 
 function home(){
   let d=data(),n=Object.values(d).filter(x=>x.view).length;
+  let ups=Object.values(D).filter(v=>v.change>=0).length;
+  $('statsRow').innerHTML=`
+    <div class="stat"><span>WATCHLIST SIZE</span><b>5</b><em>Tracked companies</em></div>
+    <div class="stat"><span>ADVANCING TODAY</span><b>${ups} / 5</b><em>${ups>=3?'Broadly higher':'Mixed session'}</em></div>
+    <div class="stat"><span>THESES WRITTEN</span><b>${n} / 5</b><em>Saved locally</em></div>
+    <div class="stat"><span>DATA SOURCE</span><b style="font-size:13px">LIVE + RESEARCH</b><em>Auto-refresh 60s</em></div>`;
   $('cards').innerHTML=Object.entries(D).map(([s,v])=>{
     let cls=v.change>=0?'up':'down',sign=v.change>=0?'+':'';
-    return `<article class="stock" onclick="openS('${s}')">
-      <div class="tk">${s}</div><div class="co">${v.name}</div>
+    return `<div class="row" onclick="openS('${s}')">
+      <div class="tkr"><b>${s}</b></div>
+      <div class="tkr"><b style="font-size:11px">${v.name}</b><span>${v.sector}</span></div>
       <div class="px">$${v.price.toFixed(2)}</div>
-      <div class="chg ${cls}">${sign}${v.change.toFixed(2)} (${sign}${v.changePct.toFixed(2)}%)</div>
-      <div class="task">${state(s)} &rarr;</div>
-    </article>`;
+      <div><span class="chg ${cls}">${sign}${v.change.toFixed(2)} (${sign}${v.changePct.toFixed(2)}%)</span></div>
+      <div class="openlink">${v.consensus.rating.toUpperCase()} &rarr;</div>
+    </div>`;
   }).join('');
-  $('next').textContent=n?`${n} of 5 theses started. Continue your research.`:'Choose a company to start your first thesis.';
 }
 function research(){
-  $('researchList').innerHTML=Object.entries(D).map(([s,v])=>`<div class="row"><span><b>${s} &middot; ${v.name}</b><br><small style="color:var(--sub)">${v.sector} &middot; ${v.consensus.rating.toUpperCase()} \u00b7 ${state(s)}</small></span><button class="btn" onclick="openS('${s}')">OPEN</button></div>`).join('');
+  $('researchList').innerHTML=Object.entries(D).map(([s,v])=>`<div class="mrow"><span><b>${s} &middot; ${v.name}</b><br><small style="color:#8b939b">${v.sector} &middot; ${v.consensus.rating.toUpperCase()} \u00b7 ${state(s)}</small></span><button class="btn blue" onclick="openS('${s}')">OPEN</button></div>`).join('');
 }
 function notes(){
   let d=data(),a=Object.entries(d).filter(x=>x[1].view);
-  $('notesList').innerHTML=a.length?a.map(([s,v])=>`<div class="row"><span><b>${s} &middot; ${S[s]}</b><br><small style="color:var(--sub)">${v.view.slice(0,90)}&hellip;</small></span><button class="btn alt" onclick="openS('${s}')">EDIT</button></div>`).join(''):'<p>No thesis notes yet. Start with one company.</p>';
+  $('notesList').innerHTML=a.length?a.map(([s,v])=>`<div class="mrow"><span><b>${s} &middot; ${S[s]}</b><br><small style="color:#8b939b">${v.view.slice(0,90)}&hellip;</small></span><button class="btn alt" onclick="openS('${s}')">EDIT</button></div>`).join(''):'<p style="color:#8b939b">No thesis notes yet. Start with one company.</p>';
 }
 
 function priceTargetBar(v){
@@ -169,8 +214,8 @@ function priceTargetBar(v){
   const pct=x=>Math.max(0,Math.min(100,((x-lo)/range)*100));
   return `<div class="pt-bar">
     <div class="pt-track"></div>
-    <div class="pt-mark" style="left:${pct(curp)}%;background:#e4e8f1" title="Current price"></div>
-    <div class="pt-mark" style="left:${pct(avg)}%;background:#4f8bff" title="Average target"></div>
+    <div class="pt-mark" style="left:${pct(curp)}%;background:#eef2f5" title="Current price"></div>
+    <div class="pt-mark" style="left:${pct(avg)}%;background:#5ad1ff" title="Average target"></div>
     <div class="pt-label" style="left:0">$${lo}</div>
     <div class="pt-label" style="left:${pct(curp)}%">NOW $${curp.toFixed(0)}</div>
     <div class="pt-label" style="left:100%;transform:translateX(-100%)">$${hi}</div>
@@ -182,102 +227,121 @@ function openS(s, silent){
   if(!silent) show('stock');
   const upside = (((v.consensus.avg_pt - v.price)/v.price)*100).toFixed(1);
   $('detail').innerHTML=`
-  <div class="ey">${state(s)}</div>
-  <h1>${s} &middot; ${v.name}</h1>
-  <span class="badge">${v.sector}</span><span class="badge">${v.industry}</span>
-  <p>${v.desc}</p>
+  <div class="top">
+  <div class="stockTitle">
+    <h1 style="margin:0"><span class="symbol">${s}</span> <span style="color:#9aa3ab;font-size:16px">${v.name}</span></h1>
+  </div>
+  </div>
+  <div class="stockTitle" style="margin-bottom:14px">
+    <span class="inlinePrice">$${v.price.toFixed(2)}</span>
+    <span class="chg ${v.change>=0?'up':'down'}" style="font-size:13px">${v.change>=0?'+':''}${v.change.toFixed(2)} (${v.changePct.toFixed(2)}%)</span>
+    <span class="tag live">LIVE</span>
+  </div>
+
   <div class="tabs">
-    <button class="active" onclick="tab('snap',this)">Snapshot</button>
-    <button onclick="tab('analysts',this)">Analysts</button>
-    <button onclick="tab('earn',this)">Earnings</button>
-    <button onclick="tab('fund',this)">Fundamentals</button>
-    <button onclick="tab('thesis',this)">My Thesis</button>
+    <button class="tabbtn active" onclick="tab('snap',this)">SNAPSHOT</button>
+    <button class="tabbtn" onclick="tab('analysts',this)">ANALYSTS</button>
+    <button class="tabbtn" onclick="tab('earn',this)">EARNINGS</button>
+    <button class="tabbtn" onclick="tab('fund',this)">FUNDAMENTALS</button>
+    <button class="tabbtn" onclick="tab('thesis',this)">MY THESIS</button>
   </div>
 
-  <div class="panel active" id="snap">
-    <div class="card"><h2>Live Snapshot</h2>
+  <div class="tabpanel active" id="snap">
+    <section class="panel"><div class="phead"><div><h2>COMPANY OVERVIEW</h2><p>${v.sector} &middot; ${v.industry}</p></div></div>
+      <div class="card"><div class="about">${v.desc}</div></div>
+    </section>
+    <section class="panel"><div class="phead"><div><h2>LIVE SNAPSHOT</h2></div></div>
+      <div class="card">
       <div class="metrics">
-        <div class="metric"><small>Price</small><b>$${v.price.toFixed(2)}</b></div>
-        <div class="metric"><small>Day Change</small><b style="color:${v.change>=0?'#2fd482':'#ff5470'}">${v.change>=0?'+':''}${v.change.toFixed(2)} (${v.changePct.toFixed(2)}%)</b></div>
-        <div class="metric"><small>Market Cap</small><b>$${fmt(v.marketCap)}</b></div>
-        <div class="metric"><small>P/E Ratio</small><b>${v.pe}</b></div>
-        <div class="metric"><small>EPS (TTM)</small><b>$${v.eps}</b></div>
-        <div class="metric"><small>52W Range</small><b>$${v.yearLow}&ndash;$${v.yearHigh}</b></div>
-        <div class="metric"><small>Day Range</small><b>$${v.dayLow}&ndash;$${v.dayHigh}</b></div>
-        <div class="metric"><small>Volume</small><b>${(v.volume/1e6).toFixed(1)}M</b></div>
-        <div class="metric"><small>Avg Volume</small><b>${(v.avgVolume/1e6).toFixed(1)}M</b></div>
-        <div class="metric"><small>Div Yield</small><b>${(v.divYield*100).toFixed(2)}%</b></div>
-        <div class="metric"><small>CEO</small><b style="font-family:inherit;font-size:13px">${v.ceo}</b></div>
-        <div class="metric"><small>Employees</small><b>${v.employees.toLocaleString()}</b></div>
+        <div class="metric"><span>PRICE</span><b>$${v.price.toFixed(2)}</b></div>
+        <div class="metric"><span>DAY CHANGE</span><b style="color:${v.change>=0?'#39e29d':'#ff5b52'}">${v.change>=0?'+':''}${v.change.toFixed(2)} (${v.changePct.toFixed(2)}%)</b></div>
+        <div class="metric"><span>MARKET CAP</span><b>$${fmt(v.marketCap)}</b></div>
+        <div class="metric"><span>P/E RATIO</span><b>${v.pe}</b></div>
+        <div class="metric"><span>EPS (TTM)</span><b>$${v.eps}</b></div>
+        <div class="metric"><span>52W RANGE</span><b>$${v.yearLow}&ndash;$${v.yearHigh}</b></div>
+        <div class="metric"><span>DAY RANGE</span><b>$${v.dayLow}&ndash;$${v.dayHigh}</b></div>
+        <div class="metric"><span>VOLUME</span><b>${(v.volume/1e6).toFixed(1)}M</b></div>
+        <div class="metric"><span>AVG VOLUME</span><b>${(v.avgVolume/1e6).toFixed(1)}M</b></div>
+        <div class="metric"><span>DIV YIELD</span><b>${(v.divYield*100).toFixed(2)}%</b></div>
+        <div class="metric"><span>CEO</span><b style="font-size:12px">${v.ceo}</b></div>
+        <div class="metric"><span>EMPLOYEES</span><b>${v.employees.toLocaleString()}</b></div>
       </div>
-      <p class="note">Price auto-refreshes every 60s. Everything below is research context, not investment advice \u2014 use it to build your own thesis.</p>
-    </div>
+      <div class="note">Price auto-refreshes every 60s. Everything here is research context, not investment advice \u2014 use it to build your own thesis.</div>
+      </div>
+    </section>
   </div>
 
-  <div class="panel" id="analysts">
-    <div class="card">
-      <h2>Wall Street Consensus</h2>
-      <span class="consensus-pill ${v.consensus.rating.toLowerCase().includes('buy')?'pill-buy':'pill-hold'}">${v.consensus.rating.toUpperCase()} \u00b7 ${v.consensus.total} ANALYSTS</span>
-      <p>${v.consensus.bullish_pct}% bullish, ${v.consensus.bearish_pct}% bearish. Average 12-month price target implies ${upside>=0?'+':''}${upside}% ${upside>=0?'upside':'downside'} from today's price.</p>
+  <div class="tabpanel" id="analysts">
+    <section class="panel"><div class="phead"><div><h2>WALL STREET CONSENSUS</h2></div><span class="tag live">${v.consensus.total} ANALYSTS</span></div>
+      <div class="card">
+      <span class="pill ${v.consensus.rating.toLowerCase().includes('buy')?'pill-buy':'pill-hold'}">${v.consensus.rating.toUpperCase()}</span>
+      <p style="color:#c9d1d6;font-size:11px">${v.consensus.bullish_pct}% bullish, ${v.consensus.bearish_pct}% bearish. Average 12-month price target implies ${upside>=0?'+':''}${upside}% ${upside>=0?'upside':'downside'} from today's price.</p>
       ${priceTargetBar(v)}
-      <h2 style="margin-top:26px">Recent Rating Changes</h2>
-      <table class="mini-table"><tr><th>Date</th><th>Firm</th><th>Action</th><th>Rating</th><th>Target</th></tr>
-      ${v.recent_ratings.map(r=>`<tr><td>${r.date}</td><td>${r.firm}</td><td>${r.action}</td><td class="${ratingClass(r.rating)}">${r.rating}</td><td>$${r.pt}${r.prior_pt&&r.prior_pt!==r.pt?` <span style="color:var(--sub)">(was $${r.prior_pt})</span>`:''}</td></tr>`).join('')}
-      </table>
-      <p class="note">Ratings and price targets from covering analysts at major banks and research firms. These are opinions, not guarantees \u2014 compare a few and form your own view.</p>
-    </div>
-  </div>
-
-  <div class="panel" id="earn">
-    <div class="card">
-      <h2>Earnings Track Record</h2>
-      <p>${v.beatRate}.</p>
-      <table class="mini-table"><tr><th>Quarter</th><th>Actual EPS</th><th>Estimate</th><th>Surprise</th><th>1-Day Move</th></tr>
-      ${v.earnings.map(e=>`<tr><td>${e.period}</td><td>$${e.epsActual}</td><td>$${e.epsEst}</td><td style="color:${e.epsActual>=e.epsEst?'#2fd482':'#ff5470'}">${e.epsActual>=e.epsEst?'+':''}${(e.epsActual-e.epsEst).toFixed(2)}</td><td style="color:${e.move>=0?'#2fd482':'#ff5470'}">${e.move>=0?'+':''}${e.move.toFixed(1)}%</td></tr>`).join('')}
-      </table>
-      <h2 style="margin-top:26px">Insider Activity (6mo)</h2>
-      <p>${v.insider}</p>
-    </div>
-  </div>
-
-  <div class="panel" id="fund">
-    <div class="card">
-      <h2>Margins &amp; Returns (${v.margins.year})</h2>
-      <div class="metrics">
-        <div class="metric"><small>Gross Margin</small><b>${v.margins.gross}%</b></div>
-        <div class="metric"><small>Operating Margin</small><b>${v.margins.operating}%</b></div>
-        <div class="metric"><small>Net Margin</small><b>${v.margins.net}%</b></div>
-        <div class="metric"><small>Return on Equity</small><b>${v.margins.roe}%</b></div>
-        <div class="metric"><small>Debt / Equity</small><b>${v.margins.debtEquity}</b></div>
-        <div class="metric"><small>EV / EBITDA</small><b>${v.margins.evEbitda}x</b></div>
       </div>
-      <p class="note">Higher margins usually mean more pricing power or efficiency. Compare these across your five companies to see which business converts sales into profit best.</p>
-    </div>
+    </section>
+    <section class="panel"><div class="phead"><div><h2>RECENT RATING CHANGES</h2></div></div>
+      <div class="card">
+      <table class="mini-table"><tr><th>DATE</th><th>FIRM</th><th>ACTION</th><th>RATING</th><th>TARGET</th></tr>
+      ${v.recent_ratings.map(r=>`<tr><td>${r.date}</td><td>${r.firm}</td><td>${r.action}</td><td class="${ratingClass(r.rating)}">${r.rating}</td><td>$${r.pt}${r.prior_pt&&r.prior_pt!==r.pt?` <span style="color:#7d858d">(was $${r.prior_pt})</span>`:''}</td></tr>`).join('')}
+      </table>
+      <div class="note">Ratings and price targets from covering analysts at major banks and research firms. These are opinions, not guarantees \u2014 compare a few and form your own view.</div>
+      </div>
+    </section>
   </div>
 
-  <div class="panel" id="thesis">
-    <div class="card"><h2>Write Your Thesis</h2>
-    <p>Specific, falsifiable, and dated beats a vague opinion.</p>
-    <label class="label">What do you believe?</label>
-    <textarea class="input" id="view" rows="3">${d.view||''}</textarea>
-    <label class="label">What could prove you right?</label>
-    <input class="input" id="cat" value="${d.cat||''}">
-    <label class="label">What could prove you wrong?</label>
-    <input class="input" id="risk" value="${d.risk||''}">
-    <label class="label">Review date</label>
-    <input class="input" id="review" type="date" value="${d.review||''}">
-    <button class="btn" onclick="saveT()">SAVE THESIS</button>
-    <div class="progress"><i id="bar" style="width:0"></i></div>
-    <small id="prog" style="color:var(--sub);font-size:11px">Complete the fields to make your reasoning clear.</small>
-    </div>
+  <div class="tabpanel" id="earn">
+    <section class="panel"><div class="phead"><div><h2>EARNINGS TRACK RECORD</h2><p>${v.beatRate}.</p></div></div>
+      <div class="card">
+      <table class="mini-table"><tr><th>QUARTER</th><th>ACTUAL EPS</th><th>ESTIMATE</th><th>SURPRISE</th><th>1-DAY MOVE</th></tr>
+      ${v.earnings.map(e=>`<tr><td>${e.period}</td><td>$${e.epsActual}</td><td>$${e.epsEst}</td><td style="color:${e.epsActual>=e.epsEst?'#39e29d':'#ff5b52'}">${e.epsActual>=e.epsEst?'+':''}${(e.epsActual-e.epsEst).toFixed(2)}</td><td style="color:${e.move>=0?'#39e29d':'#ff5b52'}">${e.move>=0?'+':''}${e.move.toFixed(1)}%</td></tr>`).join('')}
+      </table>
+      </div>
+    </section>
+    <section class="panel"><div class="phead"><div><h2>INSIDER ACTIVITY (6MO)</h2></div></div>
+      <div class="card"><p style="color:#c9d1d6;font-size:11px">${v.insider}</p></div>
+    </section>
+  </div>
+
+  <div class="tabpanel" id="fund">
+    <section class="panel"><div class="phead"><div><h2>MARGINS &amp; RETURNS (${v.margins.year})</h2></div></div>
+      <div class="card">
+      <div class="metrics">
+        <div class="metric"><span>GROSS MARGIN</span><b>${v.margins.gross}%</b></div>
+        <div class="metric"><span>OPERATING MARGIN</span><b>${v.margins.operating}%</b></div>
+        <div class="metric"><span>NET MARGIN</span><b>${v.margins.net}%</b></div>
+        <div class="metric"><span>RETURN ON EQUITY</span><b>${v.margins.roe}%</b></div>
+        <div class="metric"><span>DEBT / EQUITY</span><b>${v.margins.debtEquity}</b></div>
+        <div class="metric"><span>EV / EBITDA</span><b>${v.margins.evEbitda}x</b></div>
+      </div>
+      <div class="note">Higher margins usually mean more pricing power or efficiency. Compare these across your five companies to see which business converts sales into profit best.</div>
+      </div>
+    </section>
+  </div>
+
+  <div class="tabpanel" id="thesis">
+    <section class="panel"><div class="phead"><div><h2>MY PLAN BUILDER</h2><p>Specific, falsifiable, and dated beats a vague opinion.</p></div></div>
+      <div class="card">
+      <label class="label">WHAT DO YOU BELIEVE?</label>
+      <textarea class="input" id="view" rows="3">${d.view||''}</textarea>
+      <label class="label">WHAT COULD PROVE YOU RIGHT?</label>
+      <input class="input" id="cat" value="${d.cat||''}">
+      <label class="label">WHAT COULD PROVE YOU WRONG?</label>
+      <input class="input" id="risk" value="${d.risk||''}">
+      <label class="label">REVIEW DATE</label>
+      <input class="input" id="review" type="date" value="${d.review||''}">
+      <button class="btn blue" onclick="saveT()">SAVE THESIS</button>
+      <div class="progress"><i id="bar" style="width:0"></i></div>
+      <small id="prog" style="color:#8b939b;font-size:10px">Complete the fields to make your reasoning clear.</small>
+      </div>
+    </section>
   </div>`;
   let n0=Object.values(d).filter(Boolean).length;
   if($('bar'))$('bar').style.width=n0*25+'%';
 }
 function tab(id,b){
-  document.querySelectorAll('#stock .panel').forEach(x=>x.classList.remove('active'));
+  document.querySelectorAll('#stock .tabpanel').forEach(x=>x.classList.remove('active'));
   $(id).classList.add('active');
-  document.querySelectorAll('.tabs button').forEach(x=>x.classList.remove('active'));
+  document.querySelectorAll('.tabbtn').forEach(x=>x.classList.remove('active'));
   b.classList.add('active');
 }
 function saveT(){
